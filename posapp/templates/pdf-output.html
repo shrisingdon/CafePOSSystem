@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<body>
+        <style>
+            body {
+                font-weight: 200;
+                font-size: 14px;
+            }
+            .header {
+                font-size: 20px;
+                font-weight: 100;
+                text-align: center;
+                color: #007cae;
+            }
+            .title {
+                font-size: 22px;
+                font-weight: 100;
+               /* text-align: right;*/
+               padding: 10px 20px 0px 20px;
+            }
+            .title span {
+                color: #007cae;
+            }
+            .details {
+                padding: 10px 20px 0px 20px;
+                text-align: left !important;
+                /*margin-left: 40%;*/
+            }
+            .hrItem {
+                border: none;
+                height: 1px;
+                /* Set the hr color */
+                color: #333; /* old IE */
+                background-color: #fff; /* Modern Browsers */
+            }
+        </style>
+    </head>
+    <body>
+    {% load cart %}
+        <div class='wrapper'>
+            <div class='header'>
+                <p class='title'>Receipt</p>
+            </div>
+        <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Sno.</th>
+<!--                    <th>Image</th>-->
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for product in products %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+<!--                    <td><img style="height: 80px;" class="rounded-circle" src="{{product.image.url}}" alt=""></td>-->
+                    <td>{{product.name}}</td>
+                    <td>{{product.price}}</td>
+                    <td>{{product|cart_quantity:request.session.cart}}</td>
+                    <td>{{product|price_total:request.session.cart}}</td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <th colspan="4"></th>
+                    <th class="" colspan="">Total</th>
+                    <th>{{products|total_cart_price:request.session.cart}}</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+{% endblock %}
